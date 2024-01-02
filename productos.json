@@ -1,0 +1,9 @@
+{
+    "productos": [
+      { "id": 1, "nombre": "Shorts", "precio": 20, "talles": ["S", "M", "L"] },
+      { "id": 2, "nombre": "Remeras", "precio": 80, "talles": ["S", "M", "L"] },
+      { "id": 3, "nombre": "Gorras", "precio": 90, "talles": ["S", "M", "L"] },
+      { "id": 4, "nombre": "Zapatos", "precio": 50, "talles": ["37", "38", "39", "40", "41", "42", "43"] }
+    ]
+  }
+  
