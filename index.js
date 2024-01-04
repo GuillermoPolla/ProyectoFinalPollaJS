@@ -1,21 +1,25 @@
+// Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", async function () {
     try {
+        // Carga los productos desde el archivo JSON
         const productos = await cargarProductos();
+        // Muestra los productos en la interfaz
         mostrarProductos(productos);
     } catch (error) {
+        // Maneja cualquier error al cargar los productos
         console.error('Error al cargar los productos:', error);
     }
 
-    // Seleccionamos el botón de carrito y el contenedor de productos del carrito
+    // Selecciona el botón de carrito y el contenedor de productos del carrito
     const btnCart = document.querySelector('.container-cart-icon');
     const containerCartProducts = document.querySelector('.container-cart-products');
 
-    // Añadimos un escucha de eventos al botón de carrito
+    // Añade un escucha de eventos al botón de carrito para mostrar/ocultar el carrito
     btnCart.addEventListener('click', () => {
         containerCartProducts.classList.toggle('hidden-cart');
     });
 
-    // Seleccionamos elementos del carrito
+    // Selecciona elementos del carrito
     const rowProduct = document.querySelector('.row-product');
 
     // Lista de todos los contenedores de productos
@@ -24,20 +28,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Variable de array de productos
     let allProducts = [];
 
+    // Selecciona elementos relacionados con el total y la cantidad de productos
     const valorTotal = document.querySelector('.total-pagar');
     const countProducts = document.querySelector('#contador-productos');
     const cartEmpty = document.querySelector('.cart-empty');
     const cartTotal = document.querySelector('.cart-total');
 
-    // Añadimos un escucha de eventos de clic al contenedor de productos
+    // Añade un escucha de eventos de clic al contenedor de productos
     productsList.addEventListener('click', e => {
-        // Verificamos si el elemento clicado tiene la clase 'boton'
+        // Verifica si el elemento clicado tiene la clase 'boton'
         if (e.target.classList.contains('boton')) {
-            // Obtenemos la información del producto desde su elemento padre
+            // Obtiene la información del producto desde su elemento padre
             const product = e.target.closest('.imagen');
-            // Obtenemos el selector de talle correspondiente al producto
+            // Obtiene el selector de talle correspondiente al producto
             const sizeSelector = product.querySelector('select');
-            // Creamos un objeto con la información del producto
+            // Crea un objeto con la información del producto
             const infoProduct = {
                 quantity: 1,
                 title: product.querySelector('h2').textContent,
@@ -45,77 +50,80 @@ document.addEventListener("DOMContentLoaded", async function () {
                 size: sizeSelector ? sizeSelector.value : 'No especificado',
             };
 
+            // Busca el índice del producto existente en el carrito
             const existingProductIndex = allProducts.findIndex(
                 product => product.title === infoProduct.title && product.size === infoProduct.size
             );
 
+            // Si el producto ya existe en el carrito, actualiza la cantidad
             if (existingProductIndex !== -1) {
-                // Si el producto ya existe en el carrito, actualizamos la cantidad
                 allProducts[existingProductIndex].quantity++;
             } else {
-                // Si el producto no existe en el array, lo agregamos al array allProducts
+                // Si el producto no existe en el array, lo agrega al array allProducts
                 allProducts = [...allProducts, infoProduct];
             }
 
-            // Llamamos a la función showHTML solo si no es una adición automática
+            // Llama a la función showHTML solo si no es una adición automática
             if (!e.target.classList.contains('auto-add')) {
                 showHTML();
             }
         }
     });
 
-    // Añadimos un escucha de eventos de clic al contenedor de productos en el carrito
-    rowProduct.addEventListener('click', e => {
-        // Verificamos si el elemento clicado tiene la clase 'icon-close'
-        if (e.target.classList.contains('icon-close')) {
-            // Obtenemos el elemento del producto desde el cual se hizo clic
-            const product = e.target.closest('.cart-product');
-            // Obtenemos el título y el talle del producto desde el párrafo dentro del elemento del producto
-            const title = product.querySelector('.titulo-producto-carrito').textContent;
-            const size = product.querySelector('.titulo-producto-carrito').textContent;
-            // Filtramos el array allProducts para eliminar el producto con el título y talle correspondiente
-            allProducts = allProducts.filter(
-                product => product.title !== title || product.size !== size
-            );
-            // Llamamos a la función showHTML para actualizar la interfaz de usuario
-            showHTML();
-        }
-    });
+   // Añade un escucha de eventos de clic al contenedor de productos en el carrito
+rowProduct.addEventListener('click', e => {
+    // Verifica si el elemento clicado tiene la clase 'icon-close'
+    if (e.target.classList.contains('icon-close')) {
+        // Obtiene el elemento del producto desde el cual se hizo clic
+        const product = e.target.closest('.cart-product');
+        // Busca el índice del producto dentro del contenedor de productos
+        const productIndex = Array.from(rowProduct.children).indexOf(product);
 
-    // Añadimos un escucha de eventos de cambio a los selectores de talle
+        // Elimina el producto del array allProducts usando el índice
+        allProducts.splice(productIndex, 1);
+
+        // Llama a la función showHTML para actualizar la interfaz de usuario
+        showHTML();
+    }
+});
+
+
+
+
+
+
+    // Añade un escucha de eventos de cambio a los selectores de talle
     productsList.addEventListener('change', e => {
         if (e.target.tagName === 'SELECT' && e.target.value !== '') {
-            // Lógica adicional para el cambio de talle si es necesario
-            // ...
 
-            // Removemos la clase después de procesar la adición automática
+            // Remueve la clase después de procesar la adición automática
             e.target.classList.remove('auto-add');
         }
     });
 
     // Función para mostrar el HTML del carrito
     const showHTML = () => {
-        // Verificamos si el array allProducts está vacío
+        // Verifica si el array allProducts está vacío
         if (!allProducts.length) {
-            // Si el carrito está vacío, mostramos el mensaje de carrito vacío y ocultamos los elementos de productos y total
+            // Si el carrito está vacío, muestra el mensaje de carrito vacío y oculta los elementos de productos y total
             cartEmpty.classList.remove('hidden');
             rowProduct.classList.add('hidden');
             cartTotal.classList.add('hidden');
         } else {
-            // Si hay productos en el carrito, ocultamos el mensaje de carrito vacío y mostramos los elementos de productos y total
+            // Si hay productos en el carrito, oculta el mensaje de carrito vacío y muestra los elementos de productos y total
             cartEmpty.classList.add('hidden');
             rowProduct.classList.remove('hidden');
             cartTotal.classList.remove('hidden');
         }
 
-        // Limpiamos el contenido HTML dentro del elemento con la clase 'row-product'
+        // Limpia el contenido HTML dentro del elemento con la clase 'row-product'
         rowProduct.innerHTML = '';
 
-        // Inicializamos variables para el cálculo del total y la cantidad total de productos
+        // Inicializa variables para el cálculo del total y la cantidad total de productos
         let total = 0;
         let totalOfProducts = 0;
 
-        // Recorremos cada producto en el array allProducts
+        // Recorre cada producto en el array allProducts
         allProducts.forEach(product => {
             const containerProduct = document.createElement('div');
             containerProduct.classList.add('cart-product');
@@ -148,19 +156,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             totalOfProducts = totalOfProducts + product.quantity;
         });
 
-        // Actualizamos el texto del elemento con la clase 'total-pagar' con el total calculado
+        // Actualiza el texto del elemento con la clase 'total-pagar' con el total calculado
         valorTotal.innerText = `$${total}`;
-        // Actualizamos el texto del elemento con el id 'contador-productos' con la cantidad total de productos
+        // Actualiza el texto del elemento con el id 'contador-productos' con la cantidad total de productos
         countProducts.innerText = totalOfProducts;
     };
 });
 
+// Función asíncrona para cargar productos desde un archivo JSON
 async function cargarProductos() {
     try {
         const response = await fetch('ruta/del/productos.json');
         const data = await response.json();
         return data.productos;
     } catch (error) {
+        // Maneja cualquier error al cargar los productos
         throw new Error('Error al cargar los productos:', error);
     }
 }
