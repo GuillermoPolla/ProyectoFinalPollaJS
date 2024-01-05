@@ -1,8 +1,46 @@
 {
   "productos": [
-      { "id": 1, "nombre": "Shorts", "Precio": 200, "talles": ["S", "M", "L"] },
-      { "id": 2, "nombre": "Remeras", "Precio": 800, "talles": ["S", "M", "L"] },
-      { "id": 3, "nombre": "Gorras", "Precio": 900, "talles": ["S", "M", "L"] },
-      { "id": 4, "nombre": "Zapatos", "Precio": 500, "talles": ["37", "38", "39", "40", "41", "42", "43", "44", "455"] }
+    {
+      "id": 1,
+      "nombre": "Shorts",
+      "talles": [
+        "S",
+        "M",
+        "L"
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Remeras",
+      "talles": [
+        "S",
+        "M",
+        "L"
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Gorras",
+      "talles": [
+        "S",
+        "M",
+        "L"
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Zapatos",
+      "talles": [
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ]
+    }
   ]
 }

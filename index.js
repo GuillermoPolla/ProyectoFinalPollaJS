@@ -3,12 +3,43 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
         // Carga los productos desde el archivo JSON
         const productos = await cargarProductos();
+
+        // Agrega los talles de zapatos al select correspondiente
+        const tallesZapatosSelect = document.getElementById('talles-zapatos');
+        cargarTalles(tallesZapatosSelect, 'Zapatos', productos);
+
+        // Agrega los talles de remeras al select correspondiente
+        const tallesRemerasSelect = document.getElementById('talle-Remeras');
+        cargarTalles(tallesRemerasSelect, 'Remeras', productos);
+
+        // Agrega los talles de shorts al select correspondiente
+        const tallesShortsSelect = document.getElementById('talle-Shorts');
+        cargarTalles(tallesShortsSelect, 'Shorts', productos);
+
+        // Agrega los talles de gorras al select correspondiente
+        const tallesGorrasSelect = document.getElementById('talle-Gorras');
+        cargarTalles(tallesGorrasSelect, 'Gorras', productos);
+
         // Muestra los productos en la interfaz
         mostrarProductos(productos);
-
     } catch (error) {
         // Maneja cualquier error al cargar los productos
         console.error('Error al cargar los productos:', error);
+    }
+    function cargarTalles(select, nombreProducto, productos) {
+        // Busca el producto en el array de productos
+        const producto = productos.find(producto => producto.nombre === nombreProducto);
+
+        // Verifica si se encontró el producto
+        if (producto) {
+            // Obtiene los talles del producto y los agrega al select
+            for (const talle of producto.talles) {
+                const option = document.createElement('option');
+                option.value = talle;
+                option.text = talle;
+                select.add(option);
+            }
+        }
     }
 
     // Selecciona el botón de carrito y el contenedor de productos del carrito
@@ -104,9 +135,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 
-
-
-    // Función para mostrar el HTML del carrito
+      // Función para mostrar el HTML del carrito
     const showHTML = () => {
         // Verifica si el array allProducts está vacío
         if (!allProducts.length) {
@@ -166,70 +195,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Actualiza el texto del elemento con el id 'contador-productos' con la cantidad total de productos
         countProducts.innerText = totalOfProducts;
     };
-
-    // Función para cargar los talles en el select correspondiente
-
-    // Obtener los selectores de talle y cargar los talles para cada producto
-    const tallesZapatosSelect = document.getElementById('talles-zapatos');
-    cargarTalles(tallesZapatosSelect, 'Zapatos', productos);
-
-    const tallesRemerasSelect = document.getElementById('talle-remeras');
-    cargarTalles(tallesRemerasSelect, 'Remeras', productos);
-
-    const tallesShortsSelect = document.getElementById('talle-shorts');
-    cargarTalles(tallesShortsSelect, 'Shorts', productos);
-
-    const tallesGorrasSelect = document.getElementById('talle-gorras');
-    cargarTalles(tallesGorrasSelect, 'Gorras', productos);
-
-    // Mostrar la galería de productos inicialmente
-    mostrarProductos(productos);
-
-    // Función para cargar los talles en el select correspondiente
-    function cargarTalles(select, nombreProducto, productos) {
-        const producto = productos.find(producto => producto.nombre === nombreProducto);
-
-        if (producto) {
-            for (const talle of producto.talles) {
-                const option = document.createElement('option');
-                option.value = talle;
-                option.text = talle;
-                select.add(option);
-            }
-        }
-    }
-
-
-
-
 });
 
-// Función asíncrona para cargar productos desde un archivo JSON
-/* async function cargarProductos() {
+async function cargarProductos() {
     try {
-        const response = await fetch('ruta/del/productos.json');
+        const response = await fetch('./productos.json');
         const data = await response.json();
         return data.productos;
     } catch (error) {
         // Maneja cualquier error al cargar los productos
         throw new Error('Error al cargar los productos:', error);
     }
-} */
-
-/*  function cargarTalles(select, nombreProducto, productos) {
-    const producto = productos.find(producto => producto.nombre === nombreProducto);
-
-    if (producto) {
-        for (const talle of producto.talles) {
-            const option = document.createElement('option');
-            option.value = talle;
-            option.text = talle;
-            select.add(option);
-        }
-    }
-} 
- */
-
-
-
-
+}

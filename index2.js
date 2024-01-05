@@ -218,3 +218,98 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error('Error al cargar los productos:', error);
     }
 });
+
+
+
+// Función para cargar los talles en el select correspondiente
+
+
+
+    // Función para cargar los talles en el select correspondiente
+    /*   function cargarTalles(select, nombreProducto, productos) {
+          const producto = productos.find(producto => producto.nombre === nombreProducto);
+  
+          if (producto) {
+              for (const talle of producto.talles) {
+                  const option = document.createElement('option');
+                  option.value = talle;
+                  option.text = talle;
+                  select.add(option);
+              }
+          }
+      }
+   */
+
+      // Función asíncrona para cargar productos desde un archivo JSON
+/* async function cargarProductos() {
+    try {
+        const response = await fetch('ruta/del/productos.json');
+        const data = await response.json();
+        return data.productos;
+    } catch (error) {
+        // Maneja cualquier error al cargar los productos
+        throw new Error('Error al cargar los productos:', error);
+    }
+} */
+
+/*  function cargarTalles(select, nombreProducto, productos) {
+    const producto = productos.find(producto => producto.nombre === nombreProducto);
+
+    if (producto) {
+        for (const talle of producto.talles) {
+            const option = document.createElement('option');
+            option.value = talle;
+            option.text = talle;
+            select.add(option);
+        }
+    }
+} 
+ */
+
+
+
+  /*  // Añade un escucha de eventos de cambio a los selectores de talle
+      productsList.addEventListener('change', e => {
+        if (e.target.tagName === 'SELECT') {
+            const product = e.target.closest('.imagen');
+            const productName = product.querySelector('h2').textContent;
+            const selectedSize = e.target.value;
+
+            if (selectedSize !== '') {
+                const priceElement = document.getElementById(`precio-${productName.replace(/\s+/g, '')}`);
+                const productPrice = productos.find(item => item.nombre === productName)
+                    .precios[selectedSize];
+
+                if (priceElement) {
+                    priceElement.textContent = productPrice;
+                }
+
+                const infoProduct = allProducts.find(p => p.title === productName);
+                if (infoProduct) {
+                    infoProduct.price = parseFloat(productPrice);
+                    showHTML();
+                }
+            }
+        }
+    });
+ */
+// Añade un escucha de eventos de cambio a los selectores de talle
+/* productsList.addEventListener('change', e => {
+    if (e.target.tagName === 'SELECT' && e.target.value !== '') {
+        // Obtiene el precio del producto según el talle seleccionado
+        const product = e.target.closest('.imagen');
+        const priceElement = product.querySelector('.price');
+        const price = productos.find(item => item.nombre === product.querySelector('h2').textContent)
+            .precios[e.target.value];
+
+        // Actualiza el precio en el objeto infoProduct
+        const infoProduct = allProducts.find(p => p.title === product.querySelector('h2').textContent);
+        infoProduct.price = parseFloat(price);
+
+        // Remueve la clase después de procesar la adición automática
+        e.target.classList.remove('auto-add');
+
+        // Llama a la función showHTML
+        showHTML();
+    }
+}); */
