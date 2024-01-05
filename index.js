@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const countProducts = document.querySelector('#contador-productos');
     const cartEmpty = document.querySelector('.cart-empty');
     const cartTotal = document.querySelector('.cart-total');
+    const btnFinalizarCompra = document.getElementById('btnFinalizarCompra');
+
 
     // Añade un escucha de eventos de clic al contenedor de productos
     productsList.addEventListener('click', e => {
@@ -70,24 +72,34 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-   // Añade un escucha de eventos de clic al contenedor de productos en el carrito
-rowProduct.addEventListener('click', e => {
-    // Verifica si el elemento clicado tiene la clase 'icon-close'
-    if (e.target.classList.contains('icon-close')) {
-        // Obtiene el elemento del producto desde el cual se hizo clic
-        const product = e.target.closest('.cart-product');
-        // Busca el índice del producto dentro del contenedor de productos
-        const productIndex = Array.from(rowProduct.children).indexOf(product);
+    // Añade un escucha de eventos de clic al contenedor de productos en el carrito
+    rowProduct.addEventListener('click', e => {
+        // Verifica si el elemento clicado tiene la clase 'icon-close'
+        if (e.target.classList.contains('icon-close')) {
+            // Obtiene el elemento del producto desde el cual se hizo clic
+            const product = e.target.closest('.cart-product');
+            // Busca el índice del producto dentro del contenedor de productos
+            const productIndex = Array.from(rowProduct.children).indexOf(product);
 
-        // Elimina el producto del array allProducts usando el índice
-        allProducts.splice(productIndex, 1);
+            // Elimina el producto del array allProducts usando el índice
+            allProducts.splice(productIndex, 1);
 
-        // Llama a la función showHTML para actualizar la interfaz de usuario
-        showHTML();
-    }
+            // Llama a la función showHTML para actualizar la interfaz de usuario
+            showHTML();
+        }
+    });
+
+
+    // Añade un evento de clic al botón btnFinalizarCompra para manejar la acción de finalizar la compra con SweetAlert2
+btnFinalizarCompra.addEventListener('click', () => {
+    // Muestra un cuadro de diálogo SweetAlert2 personalizado
+    Swal.fire({
+        title: '¡Compra finalizada!',
+        text: 'Gracias por tu compra.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
 });
-
-
 
 
 
