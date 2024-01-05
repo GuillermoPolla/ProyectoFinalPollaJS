@@ -124,7 +124,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
 
-    // Añade un evento de clic al botón btnFinalizarCompra para manejar la acción de finalizar la compra con SweetAlert2
     btnFinalizarCompra.addEventListener('click', () => {
         // Muestra un cuadro de diálogo SweetAlert2 personalizado
         Swal.fire({
@@ -133,6 +132,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             icon: 'success',
             confirmButtonText: 'Aceptar'
         });
+    
+        // Resetea el array de productos al vacío
+        allProducts = [];
+    
+        // Llama a la función showHTML para actualizar la interfaz de usuario
+        showHTML();
     });
 
       // Función para mostrar el HTML del carrito
