@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const productos = await cargarProductos();
         // Muestra los productos en la interfaz
         mostrarProductos(productos);
+
     } catch (error) {
         // Maneja cualquier error al cargar los productos
         console.error('Error al cargar los productos:', error);
@@ -36,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const btnFinalizarCompra = document.getElementById('btnFinalizarCompra');
 
 
+    //EVENTOS
+
     // Añade un escucha de eventos de clic al contenedor de productos
     productsList.addEventListener('click', e => {
         // Verifica si el elemento clicado tiene la clase 'boton'
@@ -44,11 +47,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             const product = e.target.closest('.imagen');
             // Obtiene el selector de talle correspondiente al producto
             const sizeSelector = product.querySelector('select');
-            // Crea un objeto con la información del producto
+            // Crea un objeto con la información del pr oducto
             const infoProduct = {
                 quantity: 1,
                 title: product.querySelector('h2').textContent,
-                price: product.querySelector('.price').textContent,
+                price: product.querySelector('.price').textContent.replace('Precio: $', '$'),
                 size: sizeSelector ? sizeSelector.value : 'No especificado',
             };
 
@@ -91,27 +94,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     // Añade un evento de clic al botón btnFinalizarCompra para manejar la acción de finalizar la compra con SweetAlert2
-btnFinalizarCompra.addEventListener('click', () => {
-    // Muestra un cuadro de diálogo SweetAlert2 personalizado
-    Swal.fire({
-        title: '¡Compra finalizada!',
-        text: 'Gracias por tu compra.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
+    btnFinalizarCompra.addEventListener('click', () => {
+        // Muestra un cuadro de diálogo SweetAlert2 personalizado
+        Swal.fire({
+            title: '¡Compra finalizada!',
+            text: 'Gracias por tu compra.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        });
     });
-});
 
 
-
-
-    // Añade un escucha de eventos de cambio a los selectores de talle
-    productsList.addEventListener('change', e => {
-        if (e.target.tagName === 'SELECT' && e.target.value !== '') {
-
-            // Remueve la clase después de procesar la adición automática
-            e.target.classList.remove('auto-add');
-        }
-    });
 
     // Función para mostrar el HTML del carrito
     const showHTML = () => {
@@ -173,10 +166,46 @@ btnFinalizarCompra.addEventListener('click', () => {
         // Actualiza el texto del elemento con el id 'contador-productos' con la cantidad total de productos
         countProducts.innerText = totalOfProducts;
     };
+
+    // Función para cargar los talles en el select correspondiente
+
+    // Obtener los selectores de talle y cargar los talles para cada producto
+    const tallesZapatosSelect = document.getElementById('talles-zapatos');
+    cargarTalles(tallesZapatosSelect, 'Zapatos', productos);
+
+    const tallesRemerasSelect = document.getElementById('talle-remeras');
+    cargarTalles(tallesRemerasSelect, 'Remeras', productos);
+
+    const tallesShortsSelect = document.getElementById('talle-shorts');
+    cargarTalles(tallesShortsSelect, 'Shorts', productos);
+
+    const tallesGorrasSelect = document.getElementById('talle-gorras');
+    cargarTalles(tallesGorrasSelect, 'Gorras', productos);
+
+    // Mostrar la galería de productos inicialmente
+    mostrarProductos(productos);
+
+    // Función para cargar los talles en el select correspondiente
+    function cargarTalles(select, nombreProducto, productos) {
+        const producto = productos.find(producto => producto.nombre === nombreProducto);
+
+        if (producto) {
+            for (const talle of producto.talles) {
+                const option = document.createElement('option');
+                option.value = talle;
+                option.text = talle;
+                select.add(option);
+            }
+        }
+    }
+
+
+
+
 });
 
 // Función asíncrona para cargar productos desde un archivo JSON
-async function cargarProductos() {
+/* async function cargarProductos() {
     try {
         const response = await fetch('ruta/del/productos.json');
         const data = await response.json();
@@ -185,4 +214,22 @@ async function cargarProductos() {
         // Maneja cualquier error al cargar los productos
         throw new Error('Error al cargar los productos:', error);
     }
-}
+} */
+
+/*  function cargarTalles(select, nombreProducto, productos) {
+    const producto = productos.find(producto => producto.nombre === nombreProducto);
+
+    if (producto) {
+        for (const talle of producto.talles) {
+            const option = document.createElement('option');
+            option.value = talle;
+            option.text = talle;
+            select.add(option);
+        }
+    }
+} 
+ */
+
+
+
+
